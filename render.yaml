@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: qalataxi
+    runtime: python
+    plan: free            # на free база сбрасывается при перезапуске, см. README
+    buildCommand: "echo no build step"
+    startCommand: python main.py
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.3
+      - key: COOKIE_SECURE
+        value: "1"
+      - key: GOOGLE_REDIRECT_URI
+        sync: false       # https://<имя-сервиса>.onrender.com/auth/google/callback
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: ADMIN_EMAILS
+        sync: false       # почты админов через запятую
+    # Чтобы заказы и аккаунты не пропадали (платный план), раскомментируйте:
+    # disk:
+    #   name: data
+    #   mountPath: /var/data
+    #   sizeGB: 1
+    # и добавьте переменную DATABASE_PATH=/var/data/taxi.db
